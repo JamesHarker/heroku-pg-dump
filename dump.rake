@@ -19,7 +19,7 @@ namespace :postgres do
       aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
       aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
     })
-    connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Time.now.strftime('%Y-%m-%dT%l:%M:%S%z')}.dump", File.open("./postgres.dump"))
+    connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Time.now.strftime('%Y-%m-%dT%H:%M:%S%z')}.dump", File.open("./postgres.dump"))
     puts "Finished upload."
 
     if ENV['SLACK_URL']
