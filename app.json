@@ -1,0 +1,66 @@
+{
+  "name": "Heroku PG Dump",
+  "description": "Dumps your postgres database and pushes it to S3.",
+  "keywords": [
+    "postgres",
+    "S3"
+  ],
+  "website": "https://github.com/jamesharker/heroku-pg-dump",
+  "repository": "https://github.com/jamesharker/heroku-pg-dump",
+  "env": {
+    "PGPASSWORD": {
+      "description": "Postgres DB password",
+      "required": true
+    },
+    "PGHOST": {
+      "description": "The host address of the Postgres database",
+      "required": true
+    },
+    "PGUSER": {
+      "description": "The user of the Postgres database",
+      "required": true
+    },
+    "PGDATABASE": {
+      "description": "The name of the Postgres database",
+      "required": true
+    },
+    "PGPORT": {
+      "description": "The port number of the Postgres database",
+      "required": true,
+      "value": 5432
+    },
+    "ENVIRONMENT": {
+      "description": "The environment that the database runs in e.g. staging, production etc",
+      "required": true,
+      "value": "production"
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "description": "Your AWS access key",
+      "required": true
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "description": "Your AWS access key",
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "Your AWS secret key",
+      "required": true
+    },
+    "AWS_BUCKET": {
+      "description": "The name of the S3 bucket in which to put the dump file",
+      "required": true
+    },
+    "SLACK_URL": {
+      "description": "The slack webhook url with a `token` parameter"
+    },
+    "SLACK_USERNAME": {
+      "description": "The username of the bot that will post the message to Slack"
+    },
+    "SLACK_CHANNEL": {
+      "description": "The Slack channel in which to post the message"
+    }
+  },
+  "addons": [
+    "scheduler"
+  ]
+}
