@@ -27,7 +27,7 @@
     "PGPORT": {
       "description": "The port number of the Postgres database",
       "required": true,
-      "value": 5432
+      "value": "5432"
     },
     "ENVIRONMENT": {
       "description": "The environment that the database runs in e.g. staging, production etc",
