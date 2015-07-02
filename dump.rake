@@ -1,3 +1,4 @@
+require "date"
 require "dotenv"
 require "fog"
 require "rest_client"
@@ -19,7 +20,9 @@ namespace :postgres do
       aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
       aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
     })
-    connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Time.now.strftime('%Y-%m-%dT%H:%M:%S%z')}.dump", File.open("./postgres.dump"))
+
+    month_name = "#{Date.today.month} - #{Date::MONTHNAMES[Date.today.month]}"
+    connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Date.today.year}/#{month_name}/#{Time.now.strftime('%Y-%m-%dT%H:%M:%S%z')}.dump", File.open("./postgres.dump"))
     puts "Finished upload."
 
     if ENV['SLACK_URL']
