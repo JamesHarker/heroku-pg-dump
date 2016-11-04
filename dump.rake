@@ -21,13 +21,20 @@ namespace :postgres do
       aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
     })
 
-    month_name = "#{Date.today.month} - #{Date::MONTHNAMES[Date.today.month]}"
-    connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Date.today.year}/#{month_name}/#{Time.now.strftime('%Y-%m-%dT%H:%M:%S%z')}.dump", File.open("./postgres.dump"))
-    puts "Finished upload."
+    if File.zero?("./postgres.dump")
+      if ENV['SLACK_URL']
+        slack_params = { text: "Database backup has failed", channel: "##{ENV["SLACK_CHANNEL"]}", username: ENV["SLACK_USERNAME"], icon_emoji: ":floppy_disk:" }
+        RestClient.post(ENV['SLACK_URL'], slack_params.to_json)
+      end
+    else
+      month_name = "#{Date.today.month} - #{Date::MONTHNAMES[Date.today.month]}"
+      connection.put_object(ENV["AWS_BUCKET"], "#{ENV['ENVIRONMENT']}/#{Date.today.year}/#{month_name}/#{Time.now.strftime('%Y-%m-%dT%H:%M:%S%z')}.dump", File.open("./postgres.dump"))
+      puts "Finished upload."
 
-    if ENV['SLACK_URL']
-      slack_params = { text: "Database backup has completed successfully and has been uploaded to S3", channel: "##{ENV["SLACK_CHANNEL"]}", username: ENV["SLACK_USERNAME"], icon_emoji: ":floppy_disk:" }
-      RestClient.post(ENV['SLACK_URL'], slack_params.to_json)
+      if ENV['SLACK_URL']
+        slack_params = { text: "Database backup has completed successfully and has been uploaded to S3", channel: "##{ENV["SLACK_CHANNEL"]}", username: ENV["SLACK_USERNAME"], icon_emoji: ":floppy_disk:" }
+        RestClient.post(ENV['SLACK_URL'], slack_params.to_json)
+      end
     end
   end
 end
