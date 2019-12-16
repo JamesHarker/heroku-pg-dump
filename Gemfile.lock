@@ -5,7 +5,7 @@ GEM
     dotenv (0.11.1)
       dotenv-deployment (~> 0.0.2)
     dotenv-deployment (0.0.2)
-    excon (0.37.0)
+    excon (0.71.0)
     fog (1.22.1)
       fog-brightbox
       fog-core (~> 1.22)
